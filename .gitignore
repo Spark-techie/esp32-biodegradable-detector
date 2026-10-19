@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.pyc
+logs/*.csv
+models/*.joblib
+dataset/*/*.jpg
+dataset/*/*.png
+.pytest_cache/
+*.log
+esp32_test.jpg
+.vercel
+

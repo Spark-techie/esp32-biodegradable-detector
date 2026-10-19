@@ -1,0 +1,12 @@
+backend/
+camera/
+dataset/
+logs/
+models/
+servo/
+tests/
+.venv/
+.pytest_cache/
+*.log
+*.joblib
+*.jpg

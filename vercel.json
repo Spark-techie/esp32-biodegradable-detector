@@ -1,4 +1,4 @@
 {
-  "outputDirectory": "frontend",
+  "outputDirectory": "public",
   "cleanUrls": true
 }

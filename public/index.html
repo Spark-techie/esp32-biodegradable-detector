@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Biodegradable / Non-Biodegradable Detector</title><link rel="stylesheet" href="style.css">
+</head><body>
+<header>
+  <h1>ESP32-CAM <span>Biodegradable / Non-Biodegradable Detector</span></h1>
+  <div class="badges">
+    <span id="camBadge" class="badge off">Camera: …</span>
+    <span id="modelBadge" class="badge">Model: …</span>
+    <span id="beBadge" class="badge off">Backend: …</span>
+  </div>
+</header>
+<main>
+  <section class="card feed">
+    <img id="feed" src="/api/stream" alt="live feed">
+    <div id="overlay" class="overlay hidden">CAMERA OFFLINE — reconnecting…</div>
+    <div class="meta"><span id="fps">0 fps</span><span id="lat">– ms</span></div>
+  </section>
+  <section class="card status">
+    <div class="small">DETECTION</div>
+    <div id="label" class="label none">NO OBJECT</div>
+    <div class="small">CONFIDENCE</div>
+    <div class="bar"><div id="confBar"></div></div>
+    <div id="conf" class="conf">–</div>
+    <div class="small">LAST UPDATE</div><div id="ts" class="mono">–</div>
+    <div class="btns">
+      <button id="reconnect">⟳ Reconnect camera</button>
+      <button id="reset" class="ghost">Reset counts</button>
+    </div>
+    <div class="cam-box">
+      <div class="small">CAMERA SOURCE</div>
+      <div class="cam-input-row">
+        <input id="camUrl" type="text" placeholder="0 or http://IP:81/stream">
+        <button id="setCamBtn" class="sm-btn">Switch</button>
+      </div>
+      <div class="cam-presets">
+        <button type="button" class="preset-btn" data-url="0">Webcam (0)</button>
+        <button type="button" class="preset-btn" data-url="http://10.235.152.15:81/stream">ESP32 (10.235.152.15)</button>
+      </div>
+    </div>
+    <div class="servo-box">
+      <div class="small">MG90S SERVO MOTOR (ESP32 GPIO 18)</div>
+      <div class="cam-input-row">
+        <input id="servoUrl" type="text" placeholder="http://<ESP32_SERVO_IP>/trigger">
+        <button id="setServoBtn" class="sm-btn">Set</button>
+      </div>
+      <div class="btns" style="margin-top:6px">
+        <button id="testServoBtn" class="ghost" style="width:100%;font-size:12px;padding:6px 10px">⚙ Test Servo Once (0° → 90° → 0°)</button>
+      </div>
+      <div id="servoMsg" class="small" style="margin-top:4px"></div>
+    </div>
+    <div class="servo-box">
+      <div class="small">REMOTE BACKEND (FOR VERCEL HOSTING)</div>
+      <div class="cam-input-row">
+        <input id="backendUrlInput" type="text" placeholder="Direct (same host) or http://10.235.152.48:8000">
+        <button id="setBackendBtn" class="sm-btn">Connect</button>
+      </div>
+      <div class="cam-presets">
+        <button type="button" class="preset-btn" id="localHostBtn">This Host</button>
+        <button type="button" class="preset-btn" id="lanHostBtn" data-url="http://10.235.152.48:8000">LAN (10.235.152.48)</button>
+      </div>
+    </div>
+  </section>
+  <section class="card counts">
+    <div class="count g"><b id="cg">0</b><span>NON-BIODEGRADABLE detections</span></div>
+    <div class="count w"><b id="cw">0</b><span>BIODEGRADABLE detections</span></div>
+  </section>
+  <section class="card hist">
+    <div class="small">DETECTION HISTORY</div>
+    <ul id="hist"></ul>
+  </section>
+</main>
+<script src="app.js"></script>
+</body></html>

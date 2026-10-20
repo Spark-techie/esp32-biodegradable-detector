@@ -32,7 +32,7 @@ const char* WIFI_SSID = "S";
 const char* WIFI_PASS = "jawaharm";
 
 // 2. Python Detector Backend Server URL (your PC's current local IP)
-const char* BACKEND_URL = "http://10.235.152.48:8000/api/result";
+const char* BACKEND_URL = "http://10.45.87.48:8000/api/result";
 
 // 3. Servo Pin and Angles
 const int SERVO_PIN          = 18;    // MG90S signal wire (Orange/Yellow)

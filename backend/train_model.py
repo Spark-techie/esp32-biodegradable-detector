@@ -56,7 +56,7 @@ def train(dataset_dir=DATASET_DIR, out_path=MODEL_PATH, seed=42):
     try:
         import matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot as plt
         fig, ax = plt.subplots(figsize=(4, 4)); ax.imshow(test_cm, cmap="Blues")
-        ax.set_xticks(range(3), CLASSES); ax.set_yticks(range(3), CLASSES)
+        ax.set_xticks(range(3), labels=CLASSES); ax.set_yticks(range(3), labels=CLASSES)
         ax.set_xlabel("predicted"); ax.set_ylabel("true"); ax.set_title("Test confusion matrix")
         for i in range(3):
             for j in range(3): ax.text(j, i, test_cm[i, j], ha="center", va="center")

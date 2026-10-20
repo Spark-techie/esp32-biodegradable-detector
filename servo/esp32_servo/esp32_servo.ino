@@ -228,8 +228,17 @@ void handleRoot() {
   server.send(200, "text/html", html);
 }
 
+void handleOptions() {
+  server.sendHeader("Access-Control-Allow-Origin", "*");
+  server.sendHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  server.sendHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
+  server.send(204);
+}
+
 void handleTrigger() {
   server.sendHeader("Access-Control-Allow-Origin", "*");
+  server.sendHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  server.sendHeader("Access-Control-Allow-Headers", "Content-Type");
   bool ok = actuateServo("Web trigger / API request");
   String resp = String("{\"ok\":") + (ok ? "true" : "false") + ",\"triggers\":" + triggerCount + ",\"message\":\"" + lastStatusMsg + "\"}";
   server.send(ok ? 200 : 429, "application/json", resp);
@@ -237,6 +246,8 @@ void handleTrigger() {
 
 void handleStatus() {
   server.sendHeader("Access-Control-Allow-Origin", "*");
+  server.sendHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  server.sendHeader("Access-Control-Allow-Headers", "Content-Type");
   String resp = "{";
   resp += "\"ip\":\"" + WiFi.localIP().toString() + "\",";
   resp += "\"backend\":\"" + String(BACKEND_URL) + "\",";
@@ -292,8 +303,16 @@ void setup() {
   server.on("/", HTTP_GET, handleRoot);
   server.on("/trigger", HTTP_GET, handleTrigger);
   server.on("/trigger", HTTP_POST, handleTrigger);
+  server.on("/trigger", HTTP_OPTIONS, handleOptions);
   server.on("/status", HTTP_GET, handleStatus);
-  server.enableCORS();
+  server.on("/status", HTTP_OPTIONS, handleOptions);
+  server.onNotFound([]() {
+    if (server.method() == HTTP_OPTIONS) {
+      handleOptions();
+    } else {
+      server.send(404, "text/plain", "Not Found");
+    }
+  });
   server.begin();
   Serial.println("[SERVER] Web server started on port 80.");
   Serial.println("[READY] Send 'T' in Serial Monitor to test servo anytime.\n");

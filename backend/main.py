@@ -174,8 +174,13 @@ def set_config(upd: dict = Body(...)):
     if bad: return JSONResponse({"error": f"unknown keys: {bad}"}, status_code=400)
     for k, v in upd.items():
         CFG[k] = type(CFG[k])(v) if not isinstance(CFG[k], bool) else bool(v)
+    if "stepper_url" in upd and "servo_url" not in upd:
+        CFG["servo_url"] = str(upd["stepper_url"])
+    if "servo_url" in upd and "stepper_url" not in upd:
+        CFG["stepper_url"] = str(upd["servo_url"])
     if "camera_url" in upd: cam.reconnect()
     return CFG
+
 
 
 app.mount("/", StaticFiles(directory=FRONTEND_DIR, html=True), name="ui")

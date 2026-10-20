@@ -37,4 +37,6 @@ CFG = {
     "history_len": 100,
     # --- servo motor actuator (MG90S micro servo, e.g. http://192.168.1.51/trigger) ---
     "servo_url": os.getenv("SERVO_URL", os.getenv("STEPPER_URL", "")),
+    "stepper_url": os.getenv("STEPPER_URL", os.getenv("SERVO_URL", "")),
 }
+

@@ -112,10 +112,12 @@ static esp_err_t status_handler(httpd_req_t* req) {
   snprintf(b, sizeof(b), "{\"ip\":\"%s\",\"rssi\":%d,\"heap\":%u,\"psram\":%s}",
            WiFi.localIP().toString().c_str(), WiFi.RSSI(), (unsigned)ESP.getFreeHeap(), psramFound() ? "true" : "false");
   httpd_resp_set_type(req, "application/json");
+  httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", "*");
   return httpd_resp_send(req, b, strlen(b));
 }
 
 static esp_err_t stream_handler(httpd_req_t* req) {
+  httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", "*");
   esp_err_t res = httpd_resp_set_type(req, "multipart/x-mixed-replace;boundary=frame");
   if (res != ESP_OK) return res;
   Serial.println("[STREAM] client connected");
